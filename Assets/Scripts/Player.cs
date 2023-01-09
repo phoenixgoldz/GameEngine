@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [Range(1, 10)] public float speed = 5.0f;
+    [Range(1, 10)] public float speed = 10.0f;
+
     public GameObject prefab;
 
     public void Awake()
