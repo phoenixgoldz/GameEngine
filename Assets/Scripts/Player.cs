@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [Range(1, 10)] public float speed = 10.0f;
+    [Range(1, 30)] public float speed = 30.0f;
+    [Range(1, 360)] public float rotationRate = 180;
 
     public GameObject prefab;
+    public Transform BulletSpawnLocation;
 
     public void Awake()
     {
@@ -19,24 +21,24 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        //  transform.position = new Vector3(2, 3, 2);
-        // transform.rotation= Quaternion.Euler(30,30,30);
-        //transform.localScale = Vector3.one * Random.value * 5;
-
+     
         Vector3 direction = Vector3.zero;
-        direction.x = Input.GetAxis("Horizontal");
         direction.z = Input.GetAxis("Vertical");
 
+        Vector3 roation = Vector3.zero;
+        roation.y = Input.GetAxis("Horizontal");
 
-        transform.position += direction * speed * Time.deltaTime;
+        Quaternion rotate = Quaternion.Euler(roation * rotationRate * Time.deltaTime);
+        transform.rotation = transform.rotation * rotate;
+
+        transform.Translate(direction * speed * Time.deltaTime);
+        // transform.position += direction * speed * Time.deltaTime;
 
         if (Input.GetButton("Fire1"))
         {
-            Debug.Log("shots fired! ");
-            GetComponent<AudioSource>().Play();
+          
+            GameObject go = Instantiate(prefab, BulletSpawnLocation.position, BulletSpawnLocation.rotation);
             
-            Instantiate(prefab, transform.position, transform.rotation);
-
         }
 
         Debug.Log("update");
